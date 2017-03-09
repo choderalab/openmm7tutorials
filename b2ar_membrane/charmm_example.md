@@ -6,12 +6,12 @@ coordinates. When the `CharmmPsfFile` class is used to load the `psf`
 file, a chemical structure is instantiated which can then be used to create
 an OpenMM system. A regular `pdb` file can be used for the atomic 
 coordinates or the `CharmmCrdFile` or `CharmmRstFile` class can be used 
-to read the CHARMM coordinate files. Files containing forcefield 
+to read CHARMM coordinate files. Files containing forcefield 
 definitions come in a variety of formats such as `prm`, `par`, `top`, 
 `rtf`, `inp` and `str` should be loaded into a `CharmmParameterSet` object. 
 This object is then included as the first parameter when `createSystem()`
-is called on the chemical structure. Below is a snipet of code to 
-demonstrate how to use CHARMM files in an OpenmMM script.
+is called on the chemical structure. Listing 1 demonstrate how to use 
+CHARMM files in an OpenmMM script.
 
 ```
 from simtk.openmm.app import *
