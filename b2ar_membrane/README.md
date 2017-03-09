@@ -1,5 +1,7 @@
 Using OpenMM7 to run a simulation of b2ar in a lipid bilayer.
 =============================================================
+The pdb file used in this tutorial, `apo_snapshot.pdb` was taken from the reference structures for [Kohloff et.al. 2014](http://www.nature.com/nchem/journal/v6/n1/full/nchem.1821.html), 
+Provenance [3POG](http://www.rcsb.org/pdb/explore.do?structureId=3p0g).
 
 
 CHARMM-GUI to generate the lipid bilayer.
