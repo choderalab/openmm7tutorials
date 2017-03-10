@@ -1,7 +1,10 @@
-OpenMM can directly read CHARMM input files through the use of the `simtk.openmm.app` layer.
-This enables the use of all the powerful setup tools in the CHARMM ecosystem such as the CHARMM-GUI,
-VMD, CGenFF, etc. Since OpenMM can also read CHARMM force field files, it is possible to use force fields that
-aren't already included in OpenMM.
+CHARMM input files and CHARMM-GUI example
+-----------------------------------------
+
+OpenMM can directly read CHARMM input files through the use of the `simtk.openmm.app` layer. This enables the use of all 
+the powerful setup tools in the CHARMM ecosystem that a user might be familiar with such as the CHARMM-GUI, VMD, CGenFF, 
+etc. Since OpenMM can also read CHARMM force field files, it is possible to use force fields that aren't already included 
+in OpenMM. For example, a user can generate an `str` file with CGenFF for a ligand and load it into OpenMM.
 
 
 The example in listing 1 demonstrates how to use CHARMMM files in an OpenMM sctipt.The OpenMM app layer includes several
