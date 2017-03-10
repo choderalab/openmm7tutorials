@@ -8,10 +8,10 @@ already working in the CHARMM environment to harness the GPU speeds that OpenMM 
 simulation system description files. 
 
 
-OpenMM can also read CHARMM force field files. Therefore it is possible to use force fields that aren't already included 
+OpenMM can also read CHARMM force field files making it is possible to use force fields that aren't already included 
 in OpenMM such as the general CHARMM force field (CGenFF). For example, a user can generate an `str` file with the CGenFF program
-for a ligand and load it into OpenMM. However, when using this feature, the `CharmmParameterSet` class needs to be used to 
-load all the other CHARMM force field files as demonstrated in the example in listing 1. 
+for a ligand and load it into OpenMM. However, when using this feature, the `CharmmParameterSet` class needs to be used instead of 
+the `ForceField` class to load all the other CHARMM force field files as demonstrated in the example in listing 1. 
 
 
 The example demonstrates how to use CHARMMM files that were generated with the CHARMM-GUI in an OpenMM script.The OpenMM app layer includes several
