@@ -23,13 +23,14 @@ alchemical_particles = set([0])
 chemical_particles = set(range(system.getNumParticles())) - alchemical_particles
 energy_function = 'lambda*4*epsilon*x*(x-1.0); x = (sigma/reff_sterics)^6;'
 energy_function += 'reff_sterics = sigma*(0.5*(1.0-lambda) + (r/sigma)^6)^(1/6);'
+energy_function += 'sigma = 0.5*(sigma1+sigma2); epsilon = sqrt(epsilon1*epsilon2);'
 custom_force = openmm.CustomNonbondedForce(energy_function)
 custom_force.addGlobalParameter('lambda', 1.0)
-custom_force.addGlobalParameter('sigma', sigma)
-custom_force.addGlobalParameter('epsilon', epsilon)
+custom_force.addPerParticleParameter('sigma')
+custom_force.addPerParticleParameter('epsilon')
 for index in range(system.getNumParticles()):
     [charge, sigma, epsilon] = nbforce.getParticleParameters(index)
-    custom_force.addParticle([])
+    custom_force.addParticle([sigma, epsilon])
     if index in alchemical_particles:
         nbforce.setParticleParameters(index, charge*0, sigma, epsilon*0)
 custom_force.addInteractionGroup(alchemical_particles, chemical_particles)

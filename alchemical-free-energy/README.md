@@ -24,8 +24,9 @@ barostat = openmm.MonteCarloBarostat(pressure, temperature)
 system.addForce(barostat)
 ```
 To allow one of the Lennard-Jones particles to be alchemically eliminated, we create a [`CustomNonbondedForce`](http://docs.openmm.org/7.1.0/api-python/generated/simtk.openmm.openmm.CustomNonbondedForce.html#simtk.openmm.openmm.CustomNonbondedForce) that will compute the interactions between the alchemical particle and the remaining chemical particles using a [softcore potential](http://dx.doi.org/10.1016/0009-2614(94)00397-1).
-The alchemically-modified particle has its Lennard-Jones well depth (`epsilon` parameter) set to zero in `NonbondedForce`, while the `CustomNonbondedForce` is set to evaluate only the interactions between the alchemically-modified particle and the remaining particles using [`addInteractionGroup()`](http://docs.openmm.org/7.1.0/api-python/generated/simtk.openmm.openmm.CustomNonbondedForce.html#simtk.openmm.openmm.CustomNonbondedForce.addInteractionGroup) to specify only interactions between these groups are to be computed.
+The alchemically-modified particle has its Lennard-Jones well depth (`epsilon` parameter) set to zero in the original `NonbondedForce`, while the `CustomNonbondedForce` is set to evaluate only the interactions between the alchemically-modified particle and the remaining particles using [`addInteractionGroup()`](http://docs.openmm.org/7.1.0/api-python/generated/simtk.openmm.openmm.CustomNonbondedForce.html#simtk.openmm.openmm.CustomNonbondedForce.addInteractionGroup) to specify only interactions between these groups are to be computed.
 A global context parameter `lambda` is created to control the coupling of the alchemically-modified particle with the rest of the system during the simulation.
+The Lennard-Jones parameters `sigma` and `epsilon` are implemented as per-particle parameters, though this is not strictly necessary in this case since all particles are equivalent.
 ```python
 # Retrieve the NonbondedForce
 forces = { force.__class__.__name__ : force for force in system.getForces() }
@@ -36,19 +37,21 @@ alchemical_particles = set([0])
 chemical_particles = set(range(system.getNumParticles())) - alchemical_particles
 energy_function = 'lambda*4*epsilon*x*(x-1.0); x = (sigma/reff_sterics)^6;'
 energy_function += 'reff_sterics = sigma*(0.5*(1.0-lambda) + (r/sigma)^6)^(1/6);'
+energy_function += 'sigma = 0.5*(sigma1+sigma2); epsilon = sqrt(epsilon1*epsilon2);'
 custom_force = openmm.CustomNonbondedForce(energy_function)
 custom_force.addGlobalParameter('lambda', 1.0)
-custom_force.addGlobalParameter('sigma', sigma)
-custom_force.addGlobalParameter('epsilon', epsilon)
+custom_force.addPerParticleParameter('sigma')
+custom_force.addPerParticleParameter('epsilon')
 for index in range(system.getNumParticles()):
     [charge, sigma, epsilon] = nbforce.getParticleParameters(index)
-    custom_force.addParticle([])
+    custom_force.addParticle([sigma, epsilon])
     if index in alchemical_particles:
         nbforce.setParticleParameters(index, charge*0, sigma, epsilon*0)
 custom_force.addInteractionGroup(alchemical_particles, chemical_particles)
 system.addForce(custom_force)
 ```
-We then create a [`LangevinIntegrator`](http://docs.openmm.org/7.1.0/api-python/generated/simtk.openmm.openmm.LangevinIntegrator.html#simtk.openmm.openmm.LangevinIntegrator) and [`Context`](http://docs.openmm.org/7.1.0/api-python/generated/simtk.openmm.openmm.Context.html#simtk.openmm.openmm.Context) to run the simulation, and run a series of simulations at different values of `lambda`:
+We then create a [`LangevinIntegrator`](http://docs.openmm.org/7.1.0/api-python/generated/simtk.openmm.openmm.LangevinIntegrator.html#simtk.openmm.openmm.LangevinIntegrator) and [`Context`](http://docs.openmm.org/7.1.0/api-python/generated/simtk.openmm.openmm.Context.html#simtk.openmm.openmm.Context) to run the simulation, and run a series of simulations at different values of `lambda` by using [`context.setParameter()`](http://docs.openmm.org/7.1.0/api-python/generated/simtk.openmm.openmm.Context.html#simtk.openmm.openmm.Context.setParameter) to update the alchemical parameter on the fly.
+For each configuration sample that is collected, we can easily scan through the energy at different `lambda` values by simply alternating between `context.setParameter()` to update `lambda` and `context.getState()` to retrieve potential energies at the new alchemical state.
 ````python
 # Create a context
 integrator = openmm.LangevinIntegrator(temperature, collision_rate, timestep)
