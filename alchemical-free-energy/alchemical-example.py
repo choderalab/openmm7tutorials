@@ -1,5 +1,4 @@
 from simtk import openmm, unit
-import numpy as np
 
 # Create a Lennard-Jones fluid
 pressure = 80*unit.atmospheres
@@ -48,6 +47,7 @@ openmm.LocalEnergyMinimizer.minimize(context)
 # Collect data
 nsteps = 500 # number of steps per sample
 niterations = 50 # number of samples to collect per alchemical state
+import numpy as np
 lambdas = np.linspace(1.0, 0.0, 10) # alchemical lambda schedule
 nstates = len(lambdas)
 u_kln = np.zeros([nstates,nstates,niterations], np.float64)
