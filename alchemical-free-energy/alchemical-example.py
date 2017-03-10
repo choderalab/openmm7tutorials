@@ -4,7 +4,7 @@ from simtk import openmm, unit
 pressure = 80*unit.atmospheres
 temperature = 120*unit.kelvin
 collision_rate = 5/unit.picoseconds
-timestep = 5*unit.femtoseconds
+timestep = 2.5*unit.femtoseconds
 from openmmtools.testsystems import LennardJonesFluid
 sigma = 3.4*unit.angstrom; epsilon = 0.238 * unit.kilocalories_per_mole
 fluid = LennardJonesFluid(sigma=sigma, epsilon=epsilon)
@@ -46,7 +46,7 @@ print('Minimizing energy...')
 openmm.LocalEnergyMinimizer.minimize(context)
 
 # Collect data
-nsteps = 500 # number of steps per sample
+nsteps = 2500 # number of steps per sample
 niterations = 50 # number of samples to collect per alchemical state
 import numpy as np
 lambdas = np.linspace(1.0, 0.0, 10) # alchemical lambda schedule
@@ -73,10 +73,11 @@ for k in range(nstates):
     [nequil, g, Neff_max] = timeseries.detectEquilibration(u_kln[k,k,:])
     indices = timeseries.subsampleCorrelatedData(u_kln[k,k,:], g=g)
     N_k[k] = len(indices)
-    u_kln[k,:,0:N_k[k]] = u_kln[k,:,indices]
+    u_kln[k,:,0:N_k[k]] = u_kln[k,:,indices].T
 # Compute free energy differences and statistical uncertainties
 mbar = MBAR(u_kln, N_k)
 [DeltaF_ij, dDeltaF_ij, Theta_ij] = mbar.getFreeEnergyDifferences()
+
 print('DeltaF_ij (kT):')
 print(DeltaF_ij)
 print('dDeltaF_ij (kT):')
