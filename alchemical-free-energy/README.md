@@ -83,7 +83,7 @@ for k in range(nstates):
             u_kln[k,l,iteration] = context.getState(getEnergy=True).getPotentialEnergy() / kT
 ```
 Finally, the [multistate Bennett acceptance ratio (MBAR)](https://dx.doi.org/10.1063%2F1.2978177) is used on decorrelated samples to estimate the free energy of annihilating the particle using the conda-installable [`pymbar`](http://pymbar.org/) package:
-```
+```python
 # Estimate free energy of Lennard-Jones particle insertion
 from pymbar import MBAR, timeseries
 # Subsample data to extract uncorrelated equilibrium timeseries
