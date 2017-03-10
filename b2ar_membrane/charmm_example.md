@@ -2,13 +2,15 @@ OpenMM can directly read CHARMM input files through the use of the `simtk.openmm
 This enables the use of all the powerful setup tools in the CHARMM ecosystem such as the CHARMM-GUI,
 VMD, CGenFF, etc. Since OpenMM can also read CHARMM force field files, it is possible to use force fields that
 aren't already included in OpenMM.
-The example in listing 1 demonstrates how to use CHARMMM files in an OpenMM sctipt.
-The OpenMM app layer includes several classes to load CHARMM files. The `CharmmPsfFile` class reads the `psf` file and 
-instantiates a chemical structure which is then used to create an OpenMM system. For the atomic coordinates, a regular
-`pdb` file can be used or the `CharmmCrdFile` or `CharmmRstFile` classes can be used to read CHARMM coordinate files. 
-Files containing force field definitions come in a variety of formats such as `prm`, `par`, `top`, `rtf`, `inp` and
-`str`. These files are loaded into a `CharmmParameterSet` object which is then included as the first parameter when 
-`createSystem()` is called on the chemical structure.
+
+
+The example in listing 1 demonstrates how to use CHARMMM files in an OpenMM sctipt.The OpenMM app layer includes several
+classes to load CHARMM files. The `CharmmPsfFile` class reads the `psf` file and instantiates a chemical structure which 
+is then used to create an OpenMM system. For the atomic coordinates, a regular `pdb` file can be used or the 
+`CharmmCrdFile` or `CharmmRstFile` classes can be used to read CHARMM coordinate files. Files containing force field 
+definitions come in a variety of formats such as `prm`, `par`, `top`, `rtf`, `inp` and `str`. These files are loaded 
+into a `CharmmParameterSet` object which is then included as the first parameter when `createSystem()` is called on the 
+chemical structure.
 
 ```
 from simtk.openmm.app import *
