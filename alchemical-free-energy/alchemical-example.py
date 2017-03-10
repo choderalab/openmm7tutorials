@@ -2,10 +2,18 @@ from simtk import openmm, unit
 import numpy as np
 
 # Create a Lennard-Jones fluid
+pressure = 80*unit.atmospheres
+temperature = 120*unit.kelvin
+collision_rate = 5/unit.picoseconds
+timestep = 5*unit.femtoseconds
 from openmmtools.testsystems import LennardJonesFluid
 sigma = 3.4*unit.angstrom; epsilon = 0.238 * unit.kilocalories_per_mole
 fluid = LennardJonesFluid(sigma=sigma, epsilon=epsilon)
 [system, positions] = [fluid.system, fluid.positions]
+
+# Add a barostat
+barostat = openmm.MonteCarloBarostat(pressure, temperature)
+system.addForce(barostat)
 
 # Retrieve the NonbondedForce
 forces = { force.__class__.__name__ : force for force in system.getForces() }
@@ -29,7 +37,7 @@ custom_force.addInteractionGroup(alchemical_particles, chemical_particles)
 system.addForce(custom_force)
 
 # Create a context
-integrator = openmm.LangevinIntegrator(300*unit.kelvin, 5/unit.picoseconds, 5*unit.femtoseconds)
+integrator = openmm.LangevinIntegrator(temperature, collision_rate, timestep)
 context = openmm.Context(system, integrator)
 context.setPositions(positions)
 
