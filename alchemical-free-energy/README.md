@@ -52,7 +52,7 @@ system.addForce(custom_force)
 ```
 We then create a [`LangevinIntegrator`](http://docs.openmm.org/7.1.0/api-python/generated/simtk.openmm.openmm.LangevinIntegrator.html#simtk.openmm.openmm.LangevinIntegrator) and [`Context`](http://docs.openmm.org/7.1.0/api-python/generated/simtk.openmm.openmm.Context.html#simtk.openmm.openmm.Context) to run the simulation, and run a series of simulations at different values of `lambda` by using [`context.setParameter()`](http://docs.openmm.org/7.1.0/api-python/generated/simtk.openmm.openmm.Context.html#simtk.openmm.openmm.Context.setParameter) to update the alchemical parameter on the fly.
 For each configuration sample that is collected, we can easily scan through the energy at different `lambda` values by simply alternating between `context.setParameter()` to update `lambda` and `context.getState()` to retrieve potential energies at the new alchemical state.
-````python
+```python
 # Create a context
 integrator = openmm.LangevinIntegrator(temperature, collision_rate, timestep)
 context = openmm.Context(system, integrator)
