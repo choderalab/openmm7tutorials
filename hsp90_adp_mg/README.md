@@ -150,7 +150,7 @@ simulation.step(100)
 simulation.reporters.append(app.DCDReporter('trajectory.dcd', 1000))
 simulation.reporters.append(app.StateDataReporter(stdout, 1000, step=True, 
     potentialEnergy=True, temperature=True, progress=True, remainingTime=True, 
-    speed=True, totalSteps=1000, separator='\t'))
+    speed=True, totalSteps=25000000, separator='\t'))
 
 # run 50 ns of production simulation
 print('Running Production...')
