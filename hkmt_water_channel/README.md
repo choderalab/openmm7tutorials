@@ -1,15 +1,12 @@
 # OpenMM setup using water models with Extra Particles - histone methyltransferase with a proton-removing water channel
 
-OpenMM includes a selection of water models, such as TIP3P, TIP4P-ew and TIP5P. The use of the latter two is facilitated by OpenMM's support for Extra Particles - i.e. particles that are not ordinary atoms, such as the virtual sites in these water models, dummy atoms in multisite metal ion models, etc. This example illustrates the use of OpenMM's modelling and simulation pipelines to study the behavior of a water channel crucial to reactivity in the histone methyltransferase SET7/9 (Uniprot: [`Q8WTS6`](http://www.uniprot.org/uniprot/Q8WTS6))) after removal of ligands from the tertiary complex, using 3 different water models.
+OpenMM includes a selection of water models, such as TIP3P, TIP4P-ew and TIP5P. The use of the latter two is facilitated by OpenMM's support for Extra Particles - i.e. particles that are not ordinary atoms, such as the virtual sites in these water models, dummy atoms in multisite metal ion models, etc. This example illustrates the use of OpenMM's modelling and simulation pipelines to study the behavior of a water channel crucial to reactivity in the histone methyltransferase SET7/9 (Uniprot: [`Q8WTS6`](http://www.uniprot.org/uniprot/Q8WTS6)) after removal of ligands from the tertiary complex, using 3 different water models.
 
 We begin from the 1O9S PDB file, remove unwanted chains (reduce the dimer to a monomer, remove ligands), add missing residues (only those in the middle of the chain) and missing heavy atoms using PDBFixer. We preserve all crystallographic waters because of the water channel we are interested in.
 
 ```python
 from pdbfixer import PDBFixer
 from simtk.openmm.app import PDBFile
-import mdtraj as md
-import os
-import numpy as np
 
 fixer = PDBFixer('pdb1o9s.ent')
 fixer.removeChains([1,2,3,4,5,7,9])
