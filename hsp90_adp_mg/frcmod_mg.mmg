@@ -1,0 +1,39 @@
+\# parameters for multisite Mg++ from Saxena and Sept JCTC (2013)
+MASS
+XZ 18.305
+Da 1.0
+Db 1.0
+Dc 1.0
+Dd 1.0
+De 1.0
+
+
+BOND
+XZ-Da  540.0    0.90
+XZ-Db  540.0    0.90
+XZ-Dc  540.0    0.90
+XZ-Dd  540.0    0.90
+XZ-De  540.0    0.90
+
+
+ANGLE
+Da-XZ-Db    55.0       90.0
+Da-XZ-Dc    55.0      180.0
+Da-XZ-Dd    55.0       90.0
+Da-XZ-De    55.0       90.0
+Db-XZ-Dc    55.0       90.0
+Db-XZ-Dd    55.0      180.0
+Db-XZ-De    55.0       90.0
+Dc-XZ-Dd    55.0       90.0
+Dc-XZ-De    55.0       90.0
+Dd-XZ-De    55.0       90.0
+De-XZ-De    55.0      180.0
+
+
+NONB
+XZ 0.6587 26.6734
+Da 0.5 0.0025
+Db 0.5 0.0025
+Dc 0.5 0.0025
+Dd 0.5 0.0025
+De 0.5 0.0025
