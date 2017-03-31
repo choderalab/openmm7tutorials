@@ -1,0 +1,12 @@
+
+source oldff/leaprc.ff99SBildn
+loadOff mag.lib
+loadamberparams frcmod_mg.mmg
+loadAmberPrep ADP.prep
+loadamberparams frcmod.phos
+x = loadPdb 1byq_fixed2.pdb
+addIons x Na+ 0
+solvateBox x TIP3PBOX 10.0
+savePdb x topology.pdb
+saveAmberParm x input.prmtop input.inpcrd
+quit
