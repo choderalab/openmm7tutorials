@@ -10,6 +10,7 @@ We begin from the 4H12 PDB file, add missing residues (only those in the middle 
 from pdbfixer import PDBFixer
 from simtk.openmm.app import PDBFile
 import mdtraj as md
+import os
 
 # clean up the original PDB file and add missing residues and heavy atoms
 fixer = PDBFixer('pdb4h12.ent')
@@ -108,7 +109,7 @@ simulation.step(100)
 simulation.reporters.append(app.DCDReporter('trajectory.dcd', 1000))
 simulation.reporters.append(app.StateDataReporter(stdout, 1000, step=True, 
     potentialEnergy=True, temperature=True, progress=True, remainingTime=True, 
-    speed=True, totalSteps=1000, separator='\t'))
+    speed=True, totalSteps=25000000, separator='\t'))
 
 # run 50 ns of production simulation
 print('Running Production...')
