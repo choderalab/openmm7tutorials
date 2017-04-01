@@ -42,7 +42,7 @@ from sys import stdout
 pdb = app.PDBFile('1o9s_fixed.pdb')
 forcefield = app.ForceField('amber99sbildn.xml', 'tip3p.xml')
 
-# use app.Modeller to add 
+# use app.Modeller to add hydrogens and solvent
 modeller = app.Modeller(pdb.topology, pdb.positions)
 modeller.addHydrogens(forcefield)
 modeller.addSolvent(forcefield, model='tip3p', padding=1.0*unit.nanometers)
@@ -90,7 +90,7 @@ from sys import stdout
 pdb = app.PDBFile('1o9s_fixed.pdb')
 forcefield = app.ForceField('amber99sbildn.xml', 'tip4pew.xml')
 
-# use app.Modeller to add 
+# use app.Modeller to add hydrogens, extra particles, and solvent
 modeller = app.Modeller(pdb.topology, pdb.positions)
 modeller.addHydrogens()
 modeller.addExtraParticles(forcefield)
@@ -139,7 +139,7 @@ from sys import stdout
 pdb = app.PDBFile('1o9s_fixed.pdb')
 forcefield = app.ForceField('amber99sbildn.xml', 'tip5p.xml')
 
-# use app.Modeller to add 
+# use app.Modeller to add hydrogens, extra particles, and solvent
 modeller = app.Modeller(pdb.topology, pdb.positions)
 modeller.addHydrogens()
 modeller.addExtraParticles(forcefield)
